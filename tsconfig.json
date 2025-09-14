@@ -26,6 +26,9 @@
       "screens/*": ["screens/*"],
       "shared/*": ["shared/*"],
       "styles/*": ["styles/*"],
+      "stores/*": ["stores/*"],
+      "utils/*": ["utils/*"],
+      "types/*": ["types/*"],
     }
   },
   "include": ["src"]

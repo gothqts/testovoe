@@ -14,6 +14,9 @@ export default defineConfig({
             screens: '/src/screens',
             shared: '/src/shared',
             styles: '/src/styles',
+            stores: '/src/stores',
+            utils: '/src/utils',
+            types: '/src/types',
         },
     },
 })
