@@ -1,15 +1,25 @@
 import { makeAutoObservable } from 'mobx'
 import { ITaskData } from 'shared/tasks.const.ts'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
+import tasksStore from 'stores/TasksStore/index.ts'
 
 export class TasksStoreCtrl {
   allGroups: ITreeGroup<ITaskData>[] = []
   selectedTasks: Set<string> = new Set()
+  selectedTask: ITreeGroup<ITaskData> | null
 
-  constructor(initialGroups: ITreeGroup<ITaskData>[] = []) {
-    this.allGroups = initialGroups
 
+  constructor() {
+    this.allGroups = tasksStore.tasksGroups
+    console.log(this.allGroups)
     makeAutoObservable(this)
+  }
+
+  setSelectedTask = (task: ITreeGroup<ITaskData>) => {
+      this.selectedTask = task
+  }
+  getSelectedTask = () =>{
+    return this.selectedTask
   }
 
 
@@ -101,4 +111,4 @@ export class TasksStoreCtrl {
 
 }
 
-export default TasksStoreCtrl
+export default  new TasksStoreCtrl()

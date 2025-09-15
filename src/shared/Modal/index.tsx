@@ -16,7 +16,12 @@ interface IModalProps {
   title: string
 }
 
-const Modal = ({ id, onClose, children, title }: PropsWithChildren<IModalProps>) => {
+const Modal = ({
+  id,
+  onClose,
+  children,
+  title,
+}: PropsWithChildren<IModalProps>) => {
   const [isMounted, setMounted] = useState(false)
 
   const handleClose: MouseEventHandler<SVGSVGElement> = useCallback(
@@ -36,16 +41,20 @@ const Modal = ({ id, onClose, children, title }: PropsWithChildren<IModalProps>)
   return isMounted ? (
     <Portal id={id}>
       <div
-        className="fixed inset-0 bg-transparent flex items-center justify-center z-50"
+        className="fixed inset-0 bg-[rgba(0, 0, 0, 0.5)] bg-opacity-60 z-50"
+        onClick={onClose}
+      />
+      <div
+        className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
         ref={modalWrapperRef}
       >
-        <div className="bg-white opacity-50 p-5 rounded-lg w-[890px] max-h-[80vh] overflow-y-auto">
-          <div className="flex justify-between items-center border-b border-black pb-4 px-8 pt-7">
+        <div className="bg-white p-5 rounded-lg w-[500px] max-h-[80vh] overflow-y-auto pointer-events-auto border-2 border-blue-500">
+          <div className="flex justify-between items-center  pb-4 ">
             <h1 className="text-black text-3xl font-normal m-0">{title}</h1>
             <CloseIcon
               type="button"
               onClick={handleClose}
-              className="w-9 h-9 cursor-pointer"
+              className="w-7 h-7 cursor-pointer"
             />
           </div>
           {children}

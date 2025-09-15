@@ -15,7 +15,7 @@ const Checkbox = (props: ICheckboxProps) => {
   return (
     <div
       className="w-full flex justify-between"
-      onClick={(e) => e.stopPropagation()}
+
     >
       <label htmlFor={props.name}>
         {props.label}
