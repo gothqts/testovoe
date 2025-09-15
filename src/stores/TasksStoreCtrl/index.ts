@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, reaction } from 'mobx'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -25,8 +25,17 @@ export class TasksStoreCtrl {
   selectedTask: ITreeGroup<ITaskData> | null
 
 
+
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
+    this.loadFromLocalStorage();
+
+    reaction(
+      () => JSON.stringify(this.allGroups),
+      allGroupsJson => {
+        localStorage.setItem('tasksGroups', allGroupsJson);
+      }
+    );
   }
 
 
@@ -43,6 +52,12 @@ export class TasksStoreCtrl {
   }
 
 
+  loadFromLocalStorage() {
+    const todos = localStorage.getItem('tasksGroups');
+    if (todos) {
+      this.allGroups = JSON.parse(todos);
+    }
+  }
   deleteTask = (id: string) => {
     const idsToDelete = new Set<string>([id])
     let currentLevel = [id]

@@ -3,14 +3,14 @@
 ## Запуск приложения локально
 
 ```
-   yarn install
-   yarn dev
+   npm install
+   npm run dev
 ```
 
 ## Сборка приложения
 
 ```
-   yarn build
+   npm run build
 ```
 
 
