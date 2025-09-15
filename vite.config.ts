@@ -19,5 +19,5 @@ export default defineConfig({
             types: '/src/types',
         },
     },
-    base: '/testovoe'
+    base: '/testovoe/'
 })
