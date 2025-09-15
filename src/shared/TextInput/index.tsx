@@ -52,12 +52,23 @@ const TextInput =  ({
       className="w-full flex flex-col"
       style={style}
     >
+      {props.label && (
+        <span
+          style={{
+            display: 'flex',
+            marginBottom: '8px',
+          }}
+          className='text-base '
+        >
+          {props.label}
+        </span>
+      )}
       {children}
       <input
         ref={inputRef}
         type={type}
         value={value}
-        className="p-[13px_16px] rounded outline-none shadow-sm  text-sm leading-5 border "
+        className="p-[13px_16px] rounded outline-none shadow-sm  text-sm leading-5 border hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         onChange={handleChange}
         data-size={size}
         autoComplete="off"

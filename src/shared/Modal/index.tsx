@@ -41,14 +41,14 @@ const Modal = ({
   return isMounted ? (
     <Portal id={id}>
       <div
-        className="fixed inset-0 bg-[rgba(0, 0, 0, 0.5)] bg-opacity-60 z-50"
+        className="fixed"
         onClick={onClose}
       />
       <div
         className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
         ref={modalWrapperRef}
       >
-        <div className="bg-white p-5 rounded-lg w-[500px] max-h-[80vh] overflow-y-auto pointer-events-auto border-2 border-blue-500">
+        <div className="bg-white p-5 rounded-lg min-w-[500px] pointer-events-auto border-2 border-blue-500">
           <div className="flex justify-between items-center  pb-4 ">
             <h1 className="text-black text-3xl font-normal m-0">{title}</h1>
             <CloseIcon

@@ -69,8 +69,8 @@ const SelectDropdown = <T extends string | number>(props: IDropdownProps<T>) => 
           </div>
         </div>
 
-        <Dropdown open={isOpen} className="absolute z-50 w-full mt-1">
-          <div className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden py-1">
+        <Dropdown open={isOpen} className="absolute z-50 w-full mt-2 overflow-auto" maxHeight={150}>
+          <div className="bg-white border border-gray-200 rounded-lg shadow-lg py-1">
             {props.options
               .filter((option) => option.value !== props.hideOptionId)
               .map((option) => (

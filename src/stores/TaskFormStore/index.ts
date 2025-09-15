@@ -1,13 +1,15 @@
 import { makeAutoObservable } from 'mobx'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
-import { ITaskData } from 'shared/tasks.const.ts'
+import {
+  ITaskData
+} from 'stores/TasksStoreCtrl'
 
-class TaskFormStore {
+
+class Index {
   title: string
   description: string
   parentId: string | null
 
-  actionType: 'create' | 'update'
 
   constructor(taskData?: ITreeGroup<ITaskData>) {
     this.title = taskData?.data.title || ''
@@ -28,4 +30,4 @@ class TaskFormStore {
   }
 }
 
-export default TaskFormStore
+export default Index

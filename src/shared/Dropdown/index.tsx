@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import { CSSProperties, PropsWithChildren } from 'react'
 
 interface IProps {
   open: boolean
@@ -9,7 +9,7 @@ interface IProps {
 const Dropdown = (props: PropsWithChildren<IProps>) => {
   if (!props.open) return null
 
-  const style: React.CSSProperties = {}
+  const style: CSSProperties = {}
   if (props.maxHeight) {
     style.maxHeight = props.maxHeight
     style.overflow = 'auto'

@@ -5,10 +5,10 @@ import Button from 'shared/Button'
 import { useState } from 'react'
 import Modal from 'shared/Modal'
 import TaskForm from 'screens/Main/components/TaskForm'
-import TaskFormStore from 'screens/Main/components/TaskForm/TaskFormStore.ts'
-import tasksStore from 'stores/TasksStore'
+import Index from 'stores/TaskFormStore'
+import tasksStore from 'stores/TasksStoreCtrl'
 
-const taskCtrl = new TaskFormStore()
+const taskFormCtrl = new Index()
 
 const Main = observer(() => {
 
@@ -18,12 +18,12 @@ const Main = observer(() => {
     e.preventDefault()
 
     tasksStore.createTask({
-      title: taskCtrl.title,
-      parentId: taskCtrl.parentId,
-      description: taskCtrl.description,
+      title: taskFormCtrl.title,
+      parentId: taskFormCtrl.parentId,
+      description: taskFormCtrl.description,
 
     })
-    taskCtrl.resetFormState()
+    taskFormCtrl.resetFormState()
     setModalIsOpen(false)
   }
 
@@ -56,7 +56,7 @@ const Main = observer(() => {
               >
                 <TaskForm
                   actionType='create'
-                  taskCtrl={taskCtrl}
+                  taskCtrl={taskFormCtrl}
                 />
 
                 <Button

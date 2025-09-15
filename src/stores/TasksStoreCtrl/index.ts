@@ -1,24 +1,110 @@
 import { makeAutoObservable } from 'mobx'
-import { ITaskData } from 'shared/tasks.const.ts'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
-import tasksStore from 'stores/TasksStore/index.ts'
+import { v4 as uuidv4 } from 'uuid'
 
-export class TasksStoreCtrl {
+export interface ITaskData{
+  title: string,
+  description: string,
+}
+interface ICreateTaskData {
+  title: string,
+  description: string,
+  parentId?: string | null,
+}
+
+interface IUpdateTaskData {
+  title: string,
+  description: string,
+}
+
+
+export class Index {
   allGroups: ITreeGroup<ITaskData>[] = []
   selectedTasks: Set<string> = new Set()
   selectedTask: ITreeGroup<ITaskData> | null
 
 
   constructor() {
-    this.allGroups = tasksStore.tasksGroups
-    console.log(this.allGroups)
     makeAutoObservable(this)
   }
 
-  setSelectedTask = (task: ITreeGroup<ITaskData>) => {
-      this.selectedTask = task
+
+  createTask = (data: ICreateTaskData) => {
+    const newTaskGroup = {
+      id: uuidv4(),
+      data: {
+        title: data.title,
+        description: data.description,
+      },
+      parentId: data.parentId || null,
+    }
+    this.allGroups.push(newTaskGroup)
   }
-  getSelectedTask = () =>{
+
+
+  deleteTask = (id: string) => {
+
+    const idsToDelete = new Set<string>([id])
+    let currentLevel = [id]
+
+
+    while (currentLevel.length > 0) {
+      const nextLevel: string[] = []
+
+      for (const parentId of currentLevel) {
+        const children = this.allGroups
+          .filter(task => task.parentId === parentId)
+          .map(task => task.id)
+
+        children.forEach(childId => idsToDelete.add(childId))
+        nextLevel.push(...children)
+      }
+
+      currentLevel = nextLevel
+
+    }
+
+    this.allGroups = this.allGroups.filter(task => !idsToDelete.has(task.id))
+
+    if (this.selectedTask && idsToDelete.has(this.selectedTask.id)) {
+      this.selectedTask = null
+    }
+
+    idsToDelete.forEach(idToDelete => {
+      this.selectedTasks.delete(idToDelete)
+    })
+  }
+
+
+  updateTask = (data: IUpdateTaskData, id: string) => {
+    this.allGroups = this.allGroups.map(task => {
+      if (task.id === id) {
+        const updatedTask = {
+          ...task,
+          data: {
+            title: data.title,
+            description: data.description,
+          }
+        }
+
+        if (this.selectedTask?.id === id) {
+          this.selectedTask = updatedTask
+        }
+
+        return updatedTask
+      }
+      return task
+    })
+  }
+
+  setSelectedTask = (id: string) => {
+    const task = this.allGroups.find(group => group.id === id)
+    this.selectedTask = task || null
+  }
+
+
+
+  getSelectedTask = () => {
     return this.selectedTask
   }
 
@@ -111,4 +197,4 @@ export class TasksStoreCtrl {
 
 }
 
-export default  new TasksStoreCtrl()
+export default new Index()

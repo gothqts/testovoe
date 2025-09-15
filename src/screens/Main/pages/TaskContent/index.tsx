@@ -1,33 +1,35 @@
 import { observer } from 'mobx-react-lite'
 import taskStoreCtrl
-  from 'screens/Main/components/TaskPanel/stores/TasksStoreCtrl'
+  from 'stores/TasksStoreCtrl'
 import TaskForm from 'screens/Main/components/TaskForm'
 import Button from 'shared/Button'
-import TaskFormStore from 'screens/Main/components/TaskForm/TaskFormStore.ts'
-import tasksStore from 'stores/TasksStore'
+import Index from 'stores/TaskFormStore'
 import { useState } from 'react'
 import Modal from 'shared/Modal'
 
 
-const { getSelectedTask } = taskStoreCtrl
+const { getSelectedTask, updateTask, deleteTask } = taskStoreCtrl
+
 
 
 const TaskContent = observer(() => {
 
   const selectedTask = getSelectedTask()
-  const taskCtrl = new TaskFormStore(selectedTask)
+
+  const taskFormCtrl = new Index(selectedTask)
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    tasksStore.updateTask({
-      title: taskCtrl.title,
-      description: taskCtrl.description,
+    updateTask({
+      title: taskFormCtrl.title,
+      description: taskFormCtrl.description,
     }, selectedTask.id)
 
     setModalIsOpen(false)
   }
+
 
   const [isModalOpen, setModalIsOpen] = useState(false)
 
@@ -39,16 +41,19 @@ const TaskContent = observer(() => {
             <>
               <span className="text-3xl">{selectedTask?.data.title}</span>
               <span className="text-xl">{selectedTask?.data.description}</span>
-              <Button
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                onClick={() => setModalIsOpen(true)}
-              >
-                Редактировать
-              </Button>
-              <Button type='button' className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={()=>tasksStore.deleteTask(selectedTask.id)}>
-                Удалить
-              </Button>
+              <div className="flex flex-col gap-[24px]">
+                <Button
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+                  onClick={() => setModalIsOpen(true)}
+                >
+                  Редактировать
+                </Button>
+                <Button type='button' className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
+                        onClick={()=>deleteTask(selectedTask.id)}>
+                  Удалить
+                </Button>
+              </div>
+
             </>
           )
         }
@@ -66,7 +71,7 @@ const TaskContent = observer(() => {
               >
                 <TaskForm
                   actionType="update"
-                  taskCtrl={taskCtrl}
+                  taskCtrl={taskFormCtrl}
                 />
                 <Button
                   type="submit"
@@ -78,7 +83,6 @@ const TaskContent = observer(() => {
             </Modal>
           )
         }
-
 
       </div>
     </div>

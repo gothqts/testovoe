@@ -1,19 +1,19 @@
 import TextInput from 'shared/TextInput'
 import { observer } from 'mobx-react-lite'
-import TaskFormStore from 'screens/Main/components/TaskForm/TaskFormStore.ts'
+import Index from 'stores/TaskFormStore'
 import SelectDropdown from 'shared/Select'
-import tasksStore from 'stores/TasksStore/index.ts'
+import tasksStore from 'stores/TasksStoreCtrl'
 
 
 interface ITaskFormProps{
-  taskCtrl: InstanceType<typeof TaskFormStore>
+  taskCtrl: InstanceType<typeof Index>
   actionType: 'update' | 'create',
 }
 
 
 const TaskForm = observer((props: ITaskFormProps) => {
 
-  const options = tasksStore.tasksGroups.map((g)=>({
+  const options = tasksStore.allGroups.map((g)=>({
     title: g.data.title,
     value: g.id,
   }))
@@ -29,7 +29,7 @@ const TaskForm = observer((props: ITaskFormProps) => {
         onChange={props.taskCtrl.handleChange}
       />
       <TextInput
-        label='Описание задач'
+        label='Описание задачи'
         placeholder='Введите описание'
         onChange={props.taskCtrl.handleChange}
         value={props.taskCtrl.description}
@@ -46,7 +46,6 @@ const TaskForm = observer((props: ITaskFormProps) => {
             title='Выберите'/>
         )
       }
-
     </div>
   )
 

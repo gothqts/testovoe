@@ -13,4 +13,4 @@ class LocalStorageSetCodec<T> implements ILocalStorageCodec<Set<T>> {
   }
 }
 
-export default LocalStorageSetCodec
+export default  LocalStorageSetCodec
