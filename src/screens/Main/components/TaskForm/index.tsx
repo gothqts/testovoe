@@ -1,12 +1,12 @@
 import TextInput from 'shared/TextInput'
 import { observer } from 'mobx-react-lite'
-import Index from 'stores/TaskFormStore'
+import TaskFormStore from 'stores/TaskFormStore'
 import SelectDropdown from 'shared/Select'
 import tasksStore from 'stores/TasksStoreCtrl'
 
 
 interface ITaskFormProps{
-  taskCtrl: InstanceType<typeof Index>
+  taskCtrl: InstanceType<typeof TaskFormStore>
   actionType: 'update' | 'create',
 }
 

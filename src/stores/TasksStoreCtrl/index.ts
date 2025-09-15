@@ -2,10 +2,13 @@ import { makeAutoObservable } from 'mobx'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
 import { v4 as uuidv4 } from 'uuid'
 
+
+
 export interface ITaskData{
   title: string,
   description: string,
 }
+
 interface ICreateTaskData {
   title: string,
   description: string,
@@ -18,7 +21,7 @@ interface IUpdateTaskData {
 }
 
 
-export class Index {
+export class TasksStoreCtrl {
   allGroups: ITreeGroup<ITaskData>[] = []
   selectedTasks: Set<string> = new Set()
   selectedTask: ITreeGroup<ITaskData> | null
@@ -43,7 +46,6 @@ export class Index {
 
 
   deleteTask = (id: string) => {
-
     const idsToDelete = new Set<string>([id])
     let currentLevel = [id]
 
@@ -197,4 +199,4 @@ export class Index {
 
 }
 
-export default new Index()
+export default new TasksStoreCtrl()

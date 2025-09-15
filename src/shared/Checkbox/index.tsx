@@ -15,7 +15,6 @@ const Checkbox = (props: ICheckboxProps) => {
   return (
     <div
       className="w-full flex justify-between"
-
     >
       <label htmlFor={props.name}>
         {props.label}

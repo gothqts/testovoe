@@ -5,7 +5,7 @@ import {
 } from 'stores/TasksStoreCtrl'
 
 
-class Index {
+class TaskFormCtrl {
   title: string
   description: string
   parentId: string | null
@@ -30,4 +30,4 @@ class Index {
   }
 }
 
-export default Index
+export default TaskFormCtrl

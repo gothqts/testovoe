@@ -3,7 +3,7 @@ import taskStoreCtrl
   from 'stores/TasksStoreCtrl'
 import TaskForm from 'screens/Main/components/TaskForm'
 import Button from 'shared/Button'
-import Index from 'stores/TaskFormStore'
+import TaskFormStore from 'stores/TaskFormStore'
 import { useState } from 'react'
 import Modal from 'shared/Modal'
 
@@ -16,7 +16,7 @@ const TaskContent = observer(() => {
 
   const selectedTask = getSelectedTask()
 
-  const taskFormCtrl = new Index(selectedTask)
+  const taskFormCtrl = new TaskFormStore(selectedTask)
 
 
   const handleSubmit = (e) => {

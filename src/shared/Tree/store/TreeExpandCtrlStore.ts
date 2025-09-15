@@ -1,53 +1,54 @@
-import { PersistableStore } from 'stores/PersistableStore'
-import { makeAutoObservable } from 'mobx'
-import setStateUpdaters from 'utils/set.stateUpdaters'
-import LocalStorageSetCodec
-  from 'shared/LocalStorageStrategy/codecs/localStorageSetCodec.ts'
+import { makeAutoObservable, reaction,} from 'mobx';
+
 
 class TreeExpandCtrlStore<T extends string | number> {
-  treeKey: string
-  groups: Record<string, any>[]
-  persistableInstance: InstanceType<typeof PersistableStore<Set<T>>>
+  treeKey: string;
+  groups: Record<string, any>[];
+  expanded: Set<T>;
 
-  constructor(
-    treeKey: string,
-    groups: Record<string, any>[] = [],
-  ) {
-    this.treeKey = treeKey
-    this.groups = groups
+  constructor(treeKey: string, groups: Record<string, any>[] = []) {
+    this.treeKey = treeKey;
+    this.groups = groups;
 
 
-    this.persistableInstance = new PersistableStore<Set<T>>(
-      new Set<T>(),
-      `${treeKey}/expanded`,
-      new LocalStorageSetCodec<T>()
-    )
+    const stored = localStorage.getItem(`${treeKey}/expanded`);
+    this.expanded = stored ? new Set(JSON.parse(stored)) : new Set<T>();
 
-    makeAutoObservable(this)
+    makeAutoObservable(this);
+
+
+    reaction(
+      () => this.toJSExpanded(),
+      (expanded) => {
+        localStorage.setItem(`${treeKey}/expanded`, JSON.stringify(expanded));
+      },
+      { delay: 100 }
+    );
   }
 
-  get expanded(): Set<T> {
-    return this.persistableInstance.state
+
+  private toJSExpanded(): T[] {
+    return Array.from(this.expanded);
   }
 
 
-  setExpanded = (value: Set<T> | ((prev: Set<T>) => Set<T>)) => {
-    if (typeof value === 'function') {
-      this.persistableInstance.updateState(value)
+
+  toggleItem = (item: T): void => {
+    const newSet = new Set(this.expanded);
+    if (newSet.has(item)) {
+      newSet.delete(item);
     } else {
-      this.persistableInstance.state = value
+      newSet.add(item);
     }
-  }
-
-  toggleItem = (item: T) => {
-    setStateUpdaters.createIfNotExistsRemoveIfExists(this.setExpanded, item)
-  }
+    this.expanded = newSet;
+  };
 
 
   isExpanded = (item: T): boolean => {
-    return this.expanded.has(item)
-  }
+    return this.expanded.has(item);
+  };
+
 
 }
 
-export default TreeExpandCtrlStore
+export default TreeExpandCtrlStore;

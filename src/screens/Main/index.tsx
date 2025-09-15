@@ -5,10 +5,10 @@ import Button from 'shared/Button'
 import { useState } from 'react'
 import Modal from 'shared/Modal'
 import TaskForm from 'screens/Main/components/TaskForm'
-import Index from 'stores/TaskFormStore'
+import TaskFormStore from 'stores/TaskFormStore'
 import tasksStore from 'stores/TasksStoreCtrl'
 
-const taskFormCtrl = new Index()
+const taskFormCtrl = new TaskFormStore()
 
 const Main = observer(() => {
 
