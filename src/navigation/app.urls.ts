@@ -1,4 +1,4 @@
 const urls = {
-  main: '/',
+  main: '/main',
 }
 export default urls
