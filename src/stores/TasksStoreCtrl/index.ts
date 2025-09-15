@@ -2,8 +2,6 @@ import { makeAutoObservable } from 'mobx'
 import { ITreeGroup } from 'shared/Tree/tree.types.ts'
 import { v4 as uuidv4 } from 'uuid'
 
-
-
 export interface ITaskData{
   title: string,
   description: string,

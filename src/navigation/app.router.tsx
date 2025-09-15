@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router'
 import urls from 'navigation/app.urls.ts'
 import Main from 'screens/Main'
-import TaskContent from 'screens/Main/pages/TaskContent'
+import TaskContent from 'screens/Main/components/TaskContent'
 
 
 const appRouter = createBrowserRouter([

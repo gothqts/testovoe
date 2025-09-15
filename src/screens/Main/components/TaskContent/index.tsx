@@ -1,15 +1,13 @@
 import { observer } from 'mobx-react-lite'
 import taskStoreCtrl
   from 'stores/TasksStoreCtrl'
-import TaskForm from 'screens/Main/components/TaskForm'
 import Button from 'shared/Button'
 import TaskFormStore from 'stores/TaskFormStore'
 import { useState } from 'react'
-import Modal from 'shared/Modal'
+import CreateTaskModal from 'screens/Main/components/CreateTaskModal'
 
 
 const { getSelectedTask, updateTask, deleteTask } = taskStoreCtrl
-
 
 
 const TaskContent = observer(() => {
@@ -48,8 +46,11 @@ const TaskContent = observer(() => {
                 >
                   Редактировать
                 </Button>
-                <Button type='button' className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
-                        onClick={()=>deleteTask(selectedTask.id)}>
+                <Button
+                  type="button"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
+                  onClick={() => deleteTask(selectedTask.id)}
+                >
                   Удалить
                 </Button>
               </div>
@@ -57,30 +58,13 @@ const TaskContent = observer(() => {
             </>
           )
         }
-
         {
           isModalOpen && (
-            <Modal
-              id="updateTask"
-              onClose={() => setModalIsOpen(false)}
-              title="Редактирование задачи"
-            >
-              <form
-                className="flex flex-col gap-[24px] w-full"
-                onSubmit={handleSubmit}
-              >
-                <TaskForm
-                  actionType="update"
-                  taskCtrl={taskFormCtrl}
-                />
-                <Button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  Сохранить
-                </Button>
-              </form>
-            </Modal>
+            <CreateTaskModal
+              setIsModalOpen={setModalIsOpen}
+              handleSubmit={handleSubmit}
+              taskFormCtrl={taskFormCtrl}
+            />
           )
         }
 
